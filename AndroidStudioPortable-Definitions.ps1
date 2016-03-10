@@ -33,18 +33,18 @@ $AndroidSDKBinariesDirectories = @(
 )
 
 $AndroidStudio =
-    'android-studio-ide-141.2456560-windows'
+    'android-studio-ide-143.2664576-windows'
 $AndroidStudioArchive =
     "$AndroidStudio.zip"
 $AndroidStudioURL =
-    'https://dl.google.com/dl/android/studio/ide-zips/1.5.1.0/' +
+    'https://dl.google.com/dl/android/studio/ide-zips/2.1.0.0/' +
         $AndroidStudioArchive
 $AndroidStudioDirectory =
     ".\$AndroidStudio\android-studio"
 $AndroidStudioBinariesDirectory =
     "$AndroidStudioDirectory\bin"
 $AndroidStudioHomeDirectory =
-    "`${idea.home}/../../$PortabelHomeDirectoryName/.AndroidStudio1.5"
+    "`${idea.home}/../../$PortabelHomeDirectoryName/.AndroidStudio2.1"
 $AndroidStudioExecutable =
     'studio64.exe'
 $AndroidStudioConfigurationFile =
@@ -61,11 +61,11 @@ $GradleUserHomeDirectory =
     "$PortableHomeDirectory\.gradle"
 
 $OracleJDK =
-    'jdk-8u66-windows-x64'
+    'jdk-8u74-windows-x64'
 $OracleJDKInstaller =
     "$OracleJDK.exe"
 $OracleJDKURL =
-    "http://download.oracle.com/otn-pub/java/jdk/8u66-b17/$OracleJDKInstaller"
+    "http://download.oracle.com/otn-pub/java/jdk/8u74-b02/$OracleJDKInstaller"
 $OracleJDKInternalArchive =
     'tools.zip'
 $OracleJDKDirectory =
