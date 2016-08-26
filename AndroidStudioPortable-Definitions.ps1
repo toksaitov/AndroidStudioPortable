@@ -33,11 +33,11 @@ $AndroidSDKBinariesDirectories = @(
 )
 
 $AndroidStudio =
-    'android-studio-ide-143.2790544-windows'
+    'android-studio-ide-143.3101438-windows'
 $AndroidStudioArchive =
     "$AndroidStudio.zip"
 $AndroidStudioURL =
-    'https://dl.google.com/dl/android/studio/ide-zips/2.1.0.9/' +
+    'https://dl.google.com/dl/android/studio/ide-zips/2.1.3.0/' +
         $AndroidStudioArchive
 $AndroidStudioDirectory =
     ".\$AndroidStudio\android-studio"
@@ -61,11 +61,11 @@ $GradleUserHomeDirectory =
     "$PortableHomeDirectory\.gradle"
 
 $OracleJDK =
-    'jdk-8u92-windows-x64'
+    'jdk-8u101-windows-x64'
 $OracleJDKInstaller =
     "$OracleJDK.exe"
 $OracleJDKURL =
-    "http://download.oracle.com/otn-pub/java/jdk/8u92-b14/$OracleJDKInstaller"
+    "http://download.oracle.com/otn-pub/java/jdk/8u101-b13/$OracleJDKInstaller"
 $OracleJDKInternalArchive =
     'tools.zip'
 $OracleJDKDirectory =
@@ -86,7 +86,7 @@ $LessMSIExecutable =
     'lessmsi.exe'
 
 $7z =
-    '7z1514-x64'
+    '7z1602-x64'
 $7zInstaller =
     "$7z.msi"
 $7zURL =
