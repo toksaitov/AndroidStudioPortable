@@ -33,18 +33,20 @@ $AndroidSDKBinariesDirectories = @(
 )
 
 $AndroidStudio =
-    'android-studio-ide-143.2790544-windows'
+    'android-studio-ide-145.3200535-windows'
 $AndroidStudioArchive =
     "$AndroidStudio.zip"
 $AndroidStudioURL =
-    'https://dl.google.com/dl/android/studio/ide-zips/2.1.0.9/' +
+    'https://dl.google.com/dl/android/studio/ide-zips/2.2.0.8/' +
         $AndroidStudioArchive
 $AndroidStudioDirectory =
     ".\$AndroidStudio\android-studio"
 $AndroidStudioBinariesDirectory =
     "$AndroidStudioDirectory\bin"
+$AndroidStudioUserHomeDirectory =
+    "`${idea.home}/../../$PortabelHomeDirectoryName"
 $AndroidStudioHomeDirectory =
-    "`${idea.home}/../../$PortabelHomeDirectoryName/.AndroidStudioPreview2.1"
+    "$AndroidStudioUserHomeDirectory/.AndroidStudioPreview2.2"
 $AndroidStudioExecutable =
     'studio64.exe'
 $AndroidStudioConfigurationFile =
@@ -54,6 +56,13 @@ $AndroidStudioAdditionalParameters = @(
     "idea.system.path=$AndroidStudioHomeDirectory/system",
     "idea.plugins.path=$AndroidStudioHomeDirectory/config/plugins"
 )
+$AndroidStudioVMConfigurationFiles = @(
+    "$AndroidStudioDirectory\bin\studio.exe.vmoptions",
+    "$AndroidStudioDirectory\bin\studio64.exe.vmoptions"
+)
+$AndroidStudioAdditionalVMParameters = @(
+    "-Duser.home=$AndroidStudioUserHomeDirectory/"
+)
 $AndroidStudioBatchFile =
     '.\Start-AndroidStudioPortable.bat'
 
@@ -61,11 +70,11 @@ $GradleUserHomeDirectory =
     "$PortableHomeDirectory\.gradle"
 
 $OracleJDK =
-    'jdk-8u92-windows-x64'
+    'jdk-8u101-windows-x64'
 $OracleJDKInstaller =
     "$OracleJDK.exe"
 $OracleJDKURL =
-    "http://download.oracle.com/otn-pub/java/jdk/8u92-b14/$OracleJDKInstaller"
+    "http://download.oracle.com/otn-pub/java/jdk/8u101-b13/$OracleJDKInstaller"
 $OracleJDKInternalArchive =
     'tools.zip'
 $OracleJDKDirectory =
@@ -86,7 +95,7 @@ $LessMSIExecutable =
     'lessmsi.exe'
 
 $7z =
-    '7z1514-x64'
+    '7z1602-x64'
 $7zInstaller =
     "$7z.msi"
 $7zURL =
