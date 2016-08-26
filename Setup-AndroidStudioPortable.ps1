@@ -195,6 +195,21 @@ foreach ($Parameter in $AndroidStudioAdditionalParameters)
     }
 }
 
+foreach ($VMConfigurationFile in $AndroidStudioVMConfigurationFiles)
+{
+    foreach ($VMParameter in $AndroidStudioAdditionalVMParameters)
+    {
+        if (!(Select-String -Pattern $VMParameter      `
+                            -Path $VMConfigurationFile `
+                            -SimpleMatch               `
+                            -Quiet))
+        {
+            Add-Content -Path $VMConfigurationFile `
+                        -Value "`n$VMParameter"
+        }
+    }
+}
+
 #
 # Remove temporary files.
 #

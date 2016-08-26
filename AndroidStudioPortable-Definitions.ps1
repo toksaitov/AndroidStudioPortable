@@ -43,8 +43,10 @@ $AndroidStudioDirectory =
     ".\$AndroidStudio\android-studio"
 $AndroidStudioBinariesDirectory =
     "$AndroidStudioDirectory\bin"
+$AndroidStudioUserHomeDirectory =
+    "`${idea.home}/../../$PortabelHomeDirectoryName"
 $AndroidStudioHomeDirectory =
-    "`${idea.home}/../../$PortabelHomeDirectoryName/.AndroidStudio2.1"
+    "$AndroidStudioUserHomeDirectory/.AndroidStudio2.1"
 $AndroidStudioExecutable =
     'studio64.exe'
 $AndroidStudioConfigurationFile =
@@ -53,6 +55,13 @@ $AndroidStudioAdditionalParameters = @(
     "idea.config.path=$AndroidStudioHomeDirectory/config",
     "idea.system.path=$AndroidStudioHomeDirectory/system",
     "idea.plugins.path=$AndroidStudioHomeDirectory/config/plugins"
+)
+$AndroidStudioVMConfigurationFiles = @(
+    "$AndroidStudioDirectory\bin\studio.exe.vmoptions",
+    "$AndroidStudioDirectory\bin\studio64.exe.vmoptions"
+)
+$AndroidStudioAdditionalVMParameters = @(
+    "-Duser.home=$AndroidStudioUserHomeDirectory/"
 )
 $AndroidStudioBatchFile =
     '.\Start-AndroidStudioPortable.bat'
