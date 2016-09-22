@@ -33,11 +33,11 @@ $AndroidSDKBinariesDirectories = @(
 )
 
 $AndroidStudio =
-    'android-studio-ide-143.3101438-windows'
+    'android-studio-ide-145.3276617-windows'
 $AndroidStudioArchive =
     "$AndroidStudio.zip"
 $AndroidStudioURL =
-    'https://dl.google.com/dl/android/studio/ide-zips/2.1.3.0/' +
+    'https://dl.google.com/dl/android/studio/ide-zips/2.2.0.12/' +
         $AndroidStudioArchive
 $AndroidStudioDirectory =
     ".\$AndroidStudio\android-studio"
@@ -46,7 +46,7 @@ $AndroidStudioBinariesDirectory =
 $AndroidStudioUserHomeDirectory =
     "`${idea.home}/../../$PortabelHomeDirectoryName"
 $AndroidStudioHomeDirectory =
-    "$AndroidStudioUserHomeDirectory/.AndroidStudio2.1"
+    "$AndroidStudioUserHomeDirectory/.AndroidStudio2.2"
 $AndroidStudioExecutable =
     'studio64.exe'
 $AndroidStudioConfigurationFile =
