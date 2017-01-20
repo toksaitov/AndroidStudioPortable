@@ -19,25 +19,19 @@ $PortabelHomeDirectoryName =
 $PortableHomeDirectory =
     ".\$PortabelHomeDirectoryName"
 
-$AndroidSDK =
-    'android-sdk_r24.4.1-windows'
-$AndroidSDKArchive =
-    "$AndroidSDK.zip"
-$AndroidSDKURL =
-    "https://dl.google.com/android/$AndroidSDKArchive"
 $AndroidSDKDirectory =
-    ".\$AndroidSDK\android-sdk-windows"
+    ".\android-sdk-windows"
 $AndroidSDKBinariesDirectories = @(
     "$AndroidSDKDirectory\tools",
     "$AndroidSDKDirectory\platform-tools"
 )
 
 $AndroidStudio =
-    'android-studio-ide-145.3276617-windows'
+    'android-studio-ide-145.3537739-windows'
 $AndroidStudioArchive =
     "$AndroidStudio.zip"
 $AndroidStudioURL =
-    'https://dl.google.com/dl/android/studio/ide-zips/2.2.0.12/' +
+    'https://dl.google.com/dl/android/studio/ide-zips/2.2.3.0/' +
         $AndroidStudioArchive
 $AndroidStudioDirectory =
     ".\$AndroidStudio\android-studio"
@@ -70,11 +64,15 @@ $GradleUserHomeDirectory =
     "$PortableHomeDirectory\.gradle"
 
 $OracleJDK =
-    'jdk-8u101-windows-x64'
+    'jdk-8u121-windows-x64'
 $OracleJDKInstaller =
     "$OracleJDK.exe"
 $OracleJDKURL =
-    "http://download.oracle.com/otn-pub/java/jdk/8u101-b13/$OracleJDKInstaller"
+    "http://download.oracle.com/otn-pub/java/jdk/8u121-b13/e9e7ea248e2c4826b92b3f075a80e441/$OracleJDKInstaller"
+$OracleJDKInternalCABPath =
+    '.rsrc\1033\JAVA_CAB10'
+$OracleJDKInternalCAB =
+    '111'
 $OracleJDKInternalArchive =
     'tools.zip'
 $OracleJDKDirectory =

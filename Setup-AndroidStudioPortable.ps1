@@ -57,20 +57,6 @@ if ($ToolsAreRequired -And !(Test-Path -Path $7zDirectory))
 }
 
 #
-# Download and unpack an Android SDK archive.
-#
-
-if (!(Test-Path -Path $AndroidSDKDirectory))
-{
-    if (!(Test-Path -Path $AndroidSDKArchive))
-    {
-        Invoke-WebRequest -Uri $AndroidSDKURL -OutFile $AndroidSDKArchive
-    }
-
-    & ".\$7zDirectory\$7zExecutable" 'x' $AndroidSDKArchive '-o*' '-y'
-}
-
-#
 # Download and unpack an Android Studio archive.
 #
 
@@ -92,50 +78,64 @@ if (!(Test-Path -Path $OracleJDKDirectory))
 {
     if (!(Test-Path -Path $OracleJDKInternalArchive))
     {
-        if (!(Test-Path -Path $OracleJDKInstaller))
+        if (!(Test-Path -Path $OracleJDKInternalCAB))
         {
-            #
-            # Download the Oracle JDK installer accepting the
-            #
-            #     `Oracle Binary Code License Agreement for Java SE`
-            #
+            if (!(Test-Path -Path $OracleJDKInstaller))
+            {
+                #
+                # Download the Oracle JDK installer accepting the
+                #
+                #     `Oracle Binary Code License Agreement for Java SE`
+                #
 
-            $Cookies =
-                New-Object -TypeName 'System.Net.CookieContainer'
+                $Cookies =
+                    New-Object -TypeName 'System.Net.CookieContainer'
 
-            $Cookie =
-                New-Object -TypeName 'System.Net.Cookie'
-            $Cookie.Name =
-                'gpw_e24'
-            $Cookie.Value =
-                'http%3A%2F%2Fwww.oracle.com%2F'
-            $Cookie.Domain =
-                '.oracle.com'
-            $Cookies.Add($Cookie)
+                $Cookie =
+                    New-Object -TypeName 'System.Net.Cookie'
+                $Cookie.Name =
+                    'gpw_e24'
+                $Cookie.Value =
+                    'http%3A%2F%2Fwww.oracle.com%2F'
+                $Cookie.Domain =
+                    '.oracle.com'
+                $Cookies.Add($Cookie)
 
-            $Cookie =
-                New-Object -TypeName 'System.Net.Cookie'
-            $Cookie.Name =
-                'oraclelicense'
-            $Cookie.Value =
-                'accept-securebackup-cookie'
-            $Cookie.Domain =
-                '.oracle.com'
-            $Cookies.Add($Cookie)
+                $Cookie =
+                    New-Object -TypeName 'System.Net.Cookie'
+                $Cookie.Name =
+                    'oraclelicense'
+                $Cookie.Value =
+                    'accept-securebackup-cookie'
+                $Cookie.Domain =
+                    '.oracle.com'
+                $Cookies.Add($Cookie)
 
-            $InvokeWebRequestParameters = @{
-                Uri = $OracleJDKURL;
-                OutFile = $OracleJDKInstaller;
-                Cookies = $Cookies;
+                $InvokeWebRequestParameters = @{
+                    Uri = $OracleJDKURL;
+                    OutFile = $OracleJDKInstaller;
+                    Cookies = $Cookies;
+                }
+                Invoke-WebRequestWithCookies @InvokeWebRequestParameters
             }
-            Invoke-WebRequestWithCookies @InvokeWebRequestParameters
+
+            #
+            # Unpack the Oracle JDK installer with 7-Zip.
+            #
+
+            & ".\$7zDirectory\$7zExecutable"                      `
+                'e' $OracleJDKInstaller                           `
+                "$OracleJDKInternalCABPath\$OracleJDKInternalCAB" `
+                '-y'
         }
 
         #
-        # Unpack the Oracle JDK installer with 7-Zip.
+        # Unpack the Oracle JDK Tools CAB with 7-Zip.
         #
 
-        & ".\$7zDirectory\$7zExecutable" 'x' $OracleJDKInstaller '-y'
+        & ".\$7zDirectory\$7zExecutable"     `
+            'e' $OracleJDKInternalCAB        `
+            "$OracleJDKInternalArchive" '-y'
     }
 
     & ".\$7zDirectory\$7zExecutable" 'x' $OracleJDKInternalArchive `
@@ -167,6 +167,16 @@ if ($PackFiles)
             $PackFileName $JarFileName
     }
 }
+
+#
+# Create a new SDK directory.
+#
+
+$NewItemParameters = @{
+    Path = $AndroidSDKDirectory;
+    ItemType = 'Directory';
+}
+New-Item @NewItemParameters -Force | Out-Null
 
 #
 # Create a new HOME directory for SDK and configuration files.
@@ -224,9 +234,9 @@ $TemporaryFiles = @(
     $LessMSIRootDirectory,
     $7zInstaller,
     $7zRootDirectory,
-    $AndroidSDKArchive,
     $AndroidStudioArchive,
     $OracleJDKInstaller,
+    $OracleJDKInternalCAB,
     $OracleJDKInternalArchive
 )
 
