@@ -36,9 +36,10 @@ if ($ToolsAreRequired -And !(Test-Path -Path $LessMSIDirectory))
 {
     if (!(Test-Path -Path $LessMSIArchive))
     {
+        Write-Output "Get LessMSI"
         Invoke-WebRequest -Uri $LessMSIURL -OutFile $LessMSIArchive
     }
-
+    Write-Output "Expand LessMSI"
     Expand-Archive -Path $LessMSIArchive
 }
 
@@ -50,9 +51,11 @@ if ($ToolsAreRequired -And !(Test-Path -Path $7zDirectory))
 {
     if (!(Test-Path -Path $7zInstaller))
     {
+        Write-Output "Get 7-Zip"
         Invoke-WebRequest -Uri $7zURL -OutFile $7zInstaller
     }
 
+    Write-Output "Use LessMSI to unpack 7zip"
     & ".\$LessMSIDirectory\$LessMSIExecutable" 'x' $7zInstaller
 }
 
@@ -64,9 +67,11 @@ if (!(Test-Path -Path $AndroidStudioDirectory))
 {
     if (!(Test-Path -Path $AndroidStudioArchive))
     {
+        Write-Output "Download Android Studio $AndroidStudio"
         Invoke-WebRequest -Uri $AndroidStudioURL -OutFile $AndroidStudioArchive
     }
 
+    Write-Output "Unpacking Android Studio"
     & ".\$7zDirectory\$7zExecutable" 'x' $AndroidStudioArchive '-o*' '-y'
 }
 
@@ -116,6 +121,7 @@ if (!(Test-Path -Path $OracleJDKDirectory))
                     OutFile = $OracleJDKInstaller;
                     Cookies = $Cookies;
                 }
+                Write-Output "Download Java JDK $OracleJDK"
                 Invoke-WebRequestWithCookies @InvokeWebRequestParameters
             }
 
@@ -123,6 +129,7 @@ if (!(Test-Path -Path $OracleJDKDirectory))
             # Unpack the Oracle JDK installer with 7-Zip.
             #
 
+            Write-Output "Unpack JDK installer"
             & ".\$7zDirectory\$7zExecutable"                      `
                 'e' $OracleJDKInstaller                           `
                 "$OracleJDKInternalCABPath\$OracleJDKInternalCAB" `
@@ -133,11 +140,13 @@ if (!(Test-Path -Path $OracleJDKDirectory))
         # Unpack the Oracle JDK Tools CAB with 7-Zip.
         #
 
+        Write-Output "Unpack JDK archive"
         & ".\$7zDirectory\$7zExecutable"     `
             'e' $OracleJDKInternalCAB        `
             "$OracleJDKInternalArchive" '-y'
     }
 
+    Write-Output "Unpack JDK"
     & ".\$7zDirectory\$7zExecutable" 'x' $OracleJDKInternalArchive `
                                      "-o$OracleJDKDirectory" '-y'
 }
@@ -147,6 +156,7 @@ if (!(Test-Path -Path $OracleJDKDirectory))
 # utility bundled with the JDK.
 #
 
+Write-Output "Expand JDK files"
 $GetChildItemParameters = @{
     Path = $OracleJDKDirectory;
     Filter = '*.pack';
@@ -223,7 +233,6 @@ foreach ($VMConfigurationFile in $AndroidStudioVMConfigurationFiles)
 #
 # Remove temporary files.
 #
-
 $LessMSIRootDirectory =
     Get-RelativeRootDirectory -RelativePath $LessMSIDirectory
 $7zRootDirectory =
