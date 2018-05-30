@@ -27,11 +27,11 @@ $AndroidSDKBinariesDirectories = @(
 )
 
 $AndroidStudio =
-    'android-studio-ide-171.4443003-windows'
+    'android-studio-ide-173.4720617-windows'
 $AndroidStudioArchive =
     "$AndroidStudio.zip"
 $AndroidStudioURL =
-    "https://dl.google.com/dl/android/studio/ide-zips/3.0.1.0/$AndroidStudioArchive"
+    "https://dl.google.com/dl/android/studio/ide-zips/3.1.2.0/$AndroidStudioArchive"
 $AndroidStudioDirectory =
     ".\$AndroidStudio\android-studio"
 $AndroidStudioBinariesDirectory =
@@ -39,7 +39,7 @@ $AndroidStudioBinariesDirectory =
 $AndroidStudioUserHomeDirectory =
     "`${idea.home}/../../$PortabelHomeDirectoryName"
 $AndroidStudioHomeDirectory =
-    "$AndroidStudioUserHomeDirectory/.AndroidStudio3.0"
+    "$AndroidStudioUserHomeDirectory/.AndroidStudio3.1"
 $AndroidStudioExecutable =
     'studio64.exe'
 $AndroidStudioConfigurationFile =
@@ -63,11 +63,11 @@ $GradleUserHomeDirectory =
     "$PortableHomeDirectory\.gradle"
 
 $OracleJDK =
-    'jdk-8u151-windows-x64'
+    'jdk-8u171-windows-x64'
 $OracleJDKInstaller =
     "$OracleJDK.exe"
 $OracleJDKURL =
-    "http://download.oracle.com/otn-pub/java/jdk/8u151-b12/e758a0de34e24606bca991d704f6dcbf/$OracleJDKInstaller"
+    "http://download.oracle.com/otn-pub/java/jdk/8u171-b11/512cd62ec5174c3487ac17c61aaa89e8/$OracleJDKInstaller"
 $OracleJDKInternalCABPath =
     '.rsrc\1033\JAVA_CAB10'
 $OracleJDKInternalCAB =
@@ -80,11 +80,11 @@ $OracleJDKBinariesDirectory =
     "$OracleJDKDirectory\bin"
 
 $LessMSI =
-    'lessmsi-v1.4'
+    'lessmsi-v1.6.1'
 $LessMSIArchive =
     "$LessMSI.zip"
 $LessMSIURL =
-    'https://github.com/activescott/lessmsi/releases/download/v1.4/' +
+    'https://github.com/activescott/lessmsi/releases/download/v1.6.1/' +
         $LessMSIArchive
 $LessMSIDirectory =
     ".\$LessMSI"
@@ -92,7 +92,7 @@ $LessMSIExecutable =
     'lessmsi.exe'
 
 $7z =
-    '7z1602-x64'
+    '7z1805-x64'
 $7zInstaller =
     "$7z.msi"
 $7zURL =
