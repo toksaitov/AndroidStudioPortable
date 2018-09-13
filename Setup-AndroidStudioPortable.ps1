@@ -38,12 +38,23 @@ $ToolsAreRequired =
     !(Test-Path -Path $AndroidStudioDirectory) -Or
     !(Test-Path -Path $OracleJDKDirectory)
 
+if ($ToolsAreRequired -And !(Test-Path -Path $aria2Directory))
+{
+    if (!(Test-Path -Path $aria2Archive))
+    {
+        Write-Output "Get Aria2 Downloader"
+        Invoke-FileDownload -Uri $aria2URL -OutFile $aria2Archive
+    }
+    Write-Output "Expand Aria2"
+    Expand-Archive -Path $aria2Archive
+}
+	
 if ($ToolsAreRequired -And !(Test-Path -Path $LessMSIDirectory))
 {
     if (!(Test-Path -Path $LessMSIArchive))
     {
         Write-Output "Get LessMSI"
-        Invoke-FileDownload -Uri $LessMSIURL -OutFile $LessMSIArchive
+        & ".\$aria2Directory\$aria2Executable" -o $LessMSIArchive $LessMSIURL
     }
     Write-Output "Expand LessMSI"
     Expand-Archive -Path $LessMSIArchive
@@ -58,7 +69,7 @@ if ($ToolsAreRequired -And !(Test-Path -Path $7zDirectory))
     if (!(Test-Path -Path $7zInstaller))
     {
         Write-Output "Get 7-Zip"
-        Invoke-FileDownload -Uri $7zURL -OutFile $7zInstaller
+        & ".\$aria2Directory\$aria2Executable" -o $7zInstaller $7zURL
     }
 
     Write-Output "Use LessMSI to unpack 7zip"
@@ -74,7 +85,7 @@ if (!(Test-Path -Path $AndroidStudioDirectory))
     if (!(Test-Path -Path $AndroidStudioArchive))
     {
         Write-Output "Download Android Studio $AndroidStudio"
-        Invoke-FileDownload -Uri $AndroidStudioURL -OutFile $AndroidStudioArchive
+        & ".\$aria2Directory\$aria2Executable" -c -o $AndroidStudioArchive $AndroidStudioURL 
     }
 
     Write-Output "Unpacking Android Studio"
@@ -99,36 +110,8 @@ if (!(Test-Path -Path $OracleJDKDirectory))
                 #     `Oracle Binary Code License Agreement for Java SE`
                 #
 
-                $Cookies =
-                    New-Object -TypeName 'System.Net.CookieContainer'
-
-                $Cookie =
-                    New-Object -TypeName 'System.Net.Cookie'
-                $Cookie.Name =
-                    'gpw_e24'
-                $Cookie.Value =
-                    'http%3A%2F%2Fwww.oracle.com%2F'
-                $Cookie.Domain =
-                    '.oracle.com'
-                $Cookies.Add($Cookie)
-
-                $Cookie =
-                    New-Object -TypeName 'System.Net.Cookie'
-                $Cookie.Name =
-                    'oraclelicense'
-                $Cookie.Value =
-                    'accept-securebackup-cookie'
-                $Cookie.Domain =
-                    '.oracle.com'
-                $Cookies.Add($Cookie)
-
-                $InvokeWebRequestParameters = @{
-                    Uri = $OracleJDKURL;
-                    OutFile = $OracleJDKInstaller;
-                    Cookies = $Cookies;
-                }
-                Write-Output "Download Java JDK $OracleJDK"
-                Invoke-FileDownload @InvokeWebRequestParameters
+				& ".\$aria2Directory\$aria2Executable" --header=$($OracleJDKdlCookie) -c -o $OracleJDKInstaller $OracleJDKURL
+                
             }
 
             #
@@ -245,6 +228,8 @@ $7zRootDirectory =
     Get-RelativeRootDirectory -RelativePath $7zDirectory
 
 $TemporaryFiles = @(
+	$aria2Archive,
+    $aria2Directory,
     $LessMSIArchive,
     $LessMSIRootDirectory,
     $7zInstaller,

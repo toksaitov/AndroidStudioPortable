@@ -68,6 +68,8 @@ $OracleJDKInstaller =
     "$OracleJDK.exe"
 $OracleJDKURL =
     "http://download.oracle.com/otn-pub/java/jdk/8u181-b13/96a7b8442fe848ef90c96a2fad6ed6d1/$OracleJDKInstaller"
+$OracleJDKdlCookie =
+    "Cookie: oraclelicense=accept-securebackup-cookie"
 $OracleJDKInternalCABPath =
     '.rsrc\1033\JAVA_CAB10'
 $OracleJDKInternalCAB =
@@ -101,3 +103,15 @@ $7zDirectory =
     ".\$7z\SourceDir\Files\7-Zip"
 $7zExecutable =
     '7z.exe'
+
+$aria2 =
+    'aria2-1.34.0-win-64bit-build1'
+$aria2Archive =
+    "$aria2.zip"
+$aria2URL =
+    "https://github.com/aria2/aria2/releases/download/release-1.34.0/$aria2Archive"
+$aria2Directory =
+    ".\$aria2"
+$aria2Executable =
+    "$aria2\aria2c.exe"
+	
