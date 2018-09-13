@@ -43,7 +43,7 @@ if ($ToolsAreRequired -And !(Test-Path -Path $LessMSIDirectory))
     if (!(Test-Path -Path $LessMSIArchive))
     {
         Write-Output "Get LessMSI"
-        Invoke-WebRequest -Uri $LessMSIURL -OutFile $LessMSIArchive
+        Invoke-FileDownload -Uri $LessMSIURL -OutFile $LessMSIArchive
     }
     Write-Output "Expand LessMSI"
     Expand-Archive -Path $LessMSIArchive
@@ -58,7 +58,7 @@ if ($ToolsAreRequired -And !(Test-Path -Path $7zDirectory))
     if (!(Test-Path -Path $7zInstaller))
     {
         Write-Output "Get 7-Zip"
-        Invoke-WebRequest -Uri $7zURL -OutFile $7zInstaller
+        Invoke-FileDownload -Uri $7zURL -OutFile $7zInstaller
     }
 
     Write-Output "Use LessMSI to unpack 7zip"
@@ -74,7 +74,7 @@ if (!(Test-Path -Path $AndroidStudioDirectory))
     if (!(Test-Path -Path $AndroidStudioArchive))
     {
         Write-Output "Download Android Studio $AndroidStudio"
-        Invoke-WebRequest -Uri $AndroidStudioURL -OutFile $AndroidStudioArchive
+        Invoke-FileDownload -Uri $AndroidStudioURL -OutFile $AndroidStudioArchive
     }
 
     Write-Output "Unpacking Android Studio"
@@ -128,7 +128,7 @@ if (!(Test-Path -Path $OracleJDKDirectory))
                     Cookies = $Cookies;
                 }
                 Write-Output "Download Java JDK $OracleJDK"
-                Invoke-WebRequestWithCookies @InvokeWebRequestParameters
+                Invoke-FileDownload @InvokeWebRequestParameters
             }
 
             #
