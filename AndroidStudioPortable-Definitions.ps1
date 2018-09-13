@@ -27,11 +27,11 @@ $AndroidSDKBinariesDirectories = @(
 )
 
 $AndroidStudio =
-    'android-studio-ide-173.4720617-windows'
+    'android-studio-ide-173.4907809-windows'
 $AndroidStudioArchive =
     "$AndroidStudio.zip"
 $AndroidStudioURL =
-    "https://dl.google.com/dl/android/studio/ide-zips/3.1.2.0/$AndroidStudioArchive"
+    "https://dl.google.com/dl/android/studio/ide-zips/3.1.4.0/$AndroidStudioArchive"
 $AndroidStudioDirectory =
     ".\$AndroidStudio\android-studio"
 $AndroidStudioBinariesDirectory =
@@ -63,11 +63,11 @@ $GradleUserHomeDirectory =
     "$PortableHomeDirectory\.gradle"
 
 $OracleJDK =
-    'jdk-8u171-windows-x64'
+    'jdk-8u181-windows-x64'
 $OracleJDKInstaller =
     "$OracleJDK.exe"
 $OracleJDKURL =
-    "http://download.oracle.com/otn-pub/java/jdk/8u171-b11/512cd62ec5174c3487ac17c61aaa89e8/$OracleJDKInstaller"
+    "http://download.oracle.com/otn-pub/java/jdk/8u181-b13/96a7b8442fe848ef90c96a2fad6ed6d1/$OracleJDKInstaller"
 $OracleJDKInternalCABPath =
     '.rsrc\1033\JAVA_CAB10'
 $OracleJDKInternalCAB =
