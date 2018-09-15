@@ -5,6 +5,12 @@
         Downloads, unpacks, and prepares a portable
         Android development environment.
  #>
+ 
+# 
+# First boost SSL to TLS1.2 
+#
+
+[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12;
 
 #
 # Definitions
