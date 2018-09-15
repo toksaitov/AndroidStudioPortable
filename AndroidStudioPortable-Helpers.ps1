@@ -127,94 +127,42 @@ if (!(Get-Command -Name 'Expand-Archive' `
     }
 }
 
-<#
-    .NOTES
-        An `Invoke-WebRequest` shim for older PowerShells
-#>
-
-if (!(Get-Command -Name 'Invoke-WebRequest' `
-                  -ErrorAction SilentlyContinue))
+function Invoke-FileDownload
 {
-    $InvokeWebRequestIsShimmed =
-        $true
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory)]
+        [uri] $Uri,
 
-    <#
-        .SYNOPSIS
-            Downloads a file.
-     #>
-    function Invoke-WebRequest
-    {
-        Param(
-            [Parameter(Mandatory=$true)]
-            [Uri]
-            $Uri,
-
-            [Parameter(Mandatory=$true)]
-            [String]
-            $OutFile
-        )
-
-        $WebClient =
-            New-Object -TypeName 'System.Net.WebClient'
-
-        Write-Output "Downloading '$Uri' to '$OutFile'..."
-
-        $WebClient.DownloadFile($Uri, $OutFile)
-    }
-}
-
-<#
-    .SYNOPSIS
-        Downloads a file while sending requests with provided cookies.
-
-    .NOTES
-        Uses the `Invoke-WebRequest` cmdlet if possible.
-#>
-
-function Invoke-WebRequestWithCookies
-{
-    Param(
-        [Parameter(Mandatory=$true)]
-        [Uri]
-        $Uri,
-
-        [Parameter(Mandatory=$true)]
-        [String]
-        $OutFile,
-
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory)]
+        [string] $OutFile,
+		
+		[Parameter(Mandatory=$false)]
         [System.Net.CookieContainer]
         $Cookies
     )
 
-    if ($InvokeWebRequestIsShimmed)
-    {
-        $WebClient =
-            New-Object -TypeName 'System.Net.WebClient'
+    $webClient = New-Object System.Net.WebClient
 
-        $Header =
+    $changed = Register-ObjectEvent -InputObject $webClient -EventName DownloadProgressChanged -Action {
+        Write-Progress -Activity "Downloading...." -PercentComplete $eventArgs.ProgressPercentage -Status "Downloaded $($([System.Math]::Floor($eventArgs.BytesReceived/1048576)))M of $($([System.Math]::Floor($eventArgs.TotalBytesToReceive/1048576)))M"
+	}
+
+	if($Cookies){
+		$Header =
             $Cookies.GetCookieHeader($Uri)
 
-        $WebClient.Headers.Add('Cookie', $Header)
+        $webClient.Headers.Add('Cookie', $Header)
+	}
+	
+    $handle = $webClient.DownloadFileAsync($Uri, $PSCmdlet.GetUnresolvedProviderPathFromPSPath($OutFile))
 
-        Write-Output "Downloading '$Uri' to '$OutFile'..."
-
-        $WebClient.DownloadFile($Uri, $OutFile)
-    }
-    else
+    while ($webClient.IsBusy)
     {
-        $Session =
-            New-Object -TypeName `
-                'Microsoft.PowerShell.Commands.WebRequestSession'
-
-        $Session.Cookies =
-            $Cookies
-
-        $InvokeWebRequestParameters = @{
-            Uri = $Uri;
-            OutFile = $OutFile;
-            WebSession = $Session;
-        }
-        Invoke-WebRequest @InvokeWebRequestParameters
+        Start-Sleep -Milliseconds 10
     }
+
+    Write-Progress -Activity "Downloaded $($Uri) to $($OutFile)" -Completed
+    Remove-Job $changed -Force
+    Get-EventSubscriber | Where SourceObject -eq $webClient | Unregister-Event -Force
 }
