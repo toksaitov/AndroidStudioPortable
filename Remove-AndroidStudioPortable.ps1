@@ -22,12 +22,16 @@
 # Remove temporary files.
 #
 
+$aria2RootDirectory =
+    Get-RelativeRootDirectory -RelativePath $aria2Directory
 $LessMSIRootDirectory =
     Get-RelativeRootDirectory -RelativePath $LessMSIDirectory
 $7zRootDirectory =
     Get-RelativeRootDirectory -RelativePath $7zDirectory
 
 $TemporaryFiles = @(
+	$aria2Archive,
+	$aria2RootDirectory,
     $LessMSIArchive,
     $LessMSIRootDirectory,
     $7zInstaller,
