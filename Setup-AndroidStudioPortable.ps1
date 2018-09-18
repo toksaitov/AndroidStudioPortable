@@ -222,6 +222,8 @@ foreach ($VMConfigurationFile in $AndroidStudioVMConfigurationFiles)
 #
 # Remove temporary files.
 #
+$aria2RootDirectory = 
+    Get-RelativeRootDirectory -RelativePath $aria2Directory
 $LessMSIRootDirectory =
     Get-RelativeRootDirectory -RelativePath $LessMSIDirectory
 $7zRootDirectory =
@@ -229,7 +231,7 @@ $7zRootDirectory =
 
 $TemporaryFiles = @(
 	$aria2Archive,
-    $aria2Directory,
+    $aria2RootDirectory,
     $LessMSIArchive,
     $LessMSIRootDirectory,
     $7zInstaller,
