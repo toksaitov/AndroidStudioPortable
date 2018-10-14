@@ -27,11 +27,11 @@ $AndroidSDKBinariesDirectories = @(
 )
 
 $AndroidStudio =
-    'android-studio-ide-173.4907809-windows'
+    'android-studio-ide-181.5056338-windows'
 $AndroidStudioArchive =
     "$AndroidStudio.zip"
 $AndroidStudioURL =
-    "https://dl.google.com/dl/android/studio/ide-zips/3.1.4.0/$AndroidStudioArchive"
+    "https://dl.google.com/dl/android/studio/ide-zips/3.2.1.0/$AndroidStudioArchive"
 $AndroidStudioDirectory =
     ".\$AndroidStudio\android-studio"
 $AndroidStudioBinariesDirectory =
