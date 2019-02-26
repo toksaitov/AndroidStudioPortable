@@ -29,8 +29,7 @@
 #
 
 #
-# Download and unpack lessmsi to be able to unpack
-# a 7-Zip installer later.
+# 0. Check to see if we need to download anything
 #
 
 $ToolsAreRequired =
@@ -48,32 +47,22 @@ if ($ToolsAreRequired -And !(Test-Path -Path $aria2Directory))
     Write-Output "Expand Aria2"
     Expand-Archive -Path $aria2Archive
 }
-	
-if ($ToolsAreRequired -And !(Test-Path -Path $LessMSIDirectory))
-{
-    if (!(Test-Path -Path $LessMSIArchive))
-    {
-        Write-Output "Get LessMSI"
-        & ".\$aria2Directory\$aria2Executable" -o $LessMSIArchive $LessMSIURL
-    }
-    Write-Output "Expand LessMSI"
-    Expand-Archive -Path $LessMSIArchive
-}
 
 #
-# Download and unpack the 7-Zip installer.
+# Download and unpack the 7-Zip archive and bootstrap extractor.
 #
 
-if ($ToolsAreRequired -And !(Test-Path -Path $7zDirectory))
+if ($ToolsAreRequired -And !(Test-Path -Path $7zExecutable))
 {
     if (!(Test-Path -Path $7zInstaller))
     {
         Write-Output "Get 7-Zip"
-        & ".\$aria2Directory\$aria2Executable" -o $7zInstaller $7zURL
+		& ".\$aria2Directory\$aria2Executable" --file-allocation=none  -o $7zBootStrapExec $7zBootStrapURL
+        & ".\$aria2Directory\$aria2Executable" --file-allocation=none -o $7zInstaller $7zURL
     }
 
-    Write-Output "Use LessMSI to unpack 7zip"
-    & ".\$LessMSIDirectory\$LessMSIExecutable" 'x' $7zInstaller
+    Write-Output "Use 7zr to unpack 7zip"
+    & ".\$7zBootStrapExec" 'e' $7zInstaller '-bso0' '-bsp1' '-y' $7zExtractFile
 }
 
 #
@@ -82,14 +71,14 @@ if ($ToolsAreRequired -And !(Test-Path -Path $7zDirectory))
 
 if (!(Test-Path -Path $AndroidStudioDirectory))
 {
-    if (!(Test-Path -Path $AndroidStudioArchive))
+    if (!(Test-Path -Path $AndroidStudioArchive) -or (Test-Path -Path "$AndroidStudioArchive.aria2"))
     {
         Write-Output "Download Android Studio $AndroidStudio"
-        & ".\$aria2Directory\$aria2Executable" -c -o $AndroidStudioArchive $AndroidStudioURL 
+        & ".\$aria2Directory\$aria2Executable" --file-allocation=none -c -o $AndroidStudioArchive $AndroidStudioURL 
     }
 
     Write-Output "Unpacking Android Studio"
-    & ".\$7zDirectory\$7zExecutable" 'x' $AndroidStudioArchive '-o*' '-y'
+    & ".\$7zExecutable" 'x' $AndroidStudioArchive '-o*' '-bso0' '-bsp1' '-y'
 }
 
 #
@@ -220,33 +209,9 @@ foreach ($VMConfigurationFile in $AndroidStudioVMConfigurationFiles)
 }
 
 #
-# Remove temporary files.
+# Cleanup Tools
 #
-$aria2RootDirectory = 
-    Get-RelativeRootDirectory -RelativePath $aria2Directory
-$LessMSIRootDirectory =
-    Get-RelativeRootDirectory -RelativePath $LessMSIDirectory
-$7zRootDirectory =
-    Get-RelativeRootDirectory -RelativePath $7zDirectory
-
-$TemporaryFiles = @(
-	$aria2Archive,
-    $aria2RootDirectory,
-    $LessMSIArchive,
-    $LessMSIRootDirectory,
-    $7zInstaller,
-    $7zRootDirectory,
-    $AndroidStudioArchive,
-    $OracleJDKInstaller,
-    $OracleJDKInternalCAB,
-    $OracleJDKInternalArchive
-)
-
-$RemoveItemParameters = @{
-    Path = $TemporaryFiles;
-    ErrorAction = 'SilentlyContinue';
-}
-Remove-Item @RemoveItemParameters -Recurse -Force
+. '.\Remove-SetupTemporaryFiles.ps1'
 
 #
 # Generate a batch file to start Android Studio.

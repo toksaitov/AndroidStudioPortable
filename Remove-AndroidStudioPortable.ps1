@@ -1,4 +1,4 @@
-﻿#Requires -Version 2.0
+#Requires -Version 2.0
 
 <#
     .SYNOPSIS
@@ -19,34 +19,10 @@
 . '.\AndroidStudioPortable-Helpers.ps1'
 
 #
-# Remove temporary files.
+# Cleanup Tools
 #
+. '.\Remove-SetupTemporaryFiles.ps1'
 
-$aria2RootDirectory =
-    Get-RelativeRootDirectory -RelativePath $aria2Directory
-$LessMSIRootDirectory =
-    Get-RelativeRootDirectory -RelativePath $LessMSIDirectory
-$7zRootDirectory =
-    Get-RelativeRootDirectory -RelativePath $7zDirectory
-
-$TemporaryFiles = @(
-	$aria2Archive,
-	$aria2RootDirectory,
-    $LessMSIArchive,
-    $LessMSIRootDirectory,
-    $7zInstaller,
-    $7zRootDirectory,
-    $AndroidSDKArchive,
-    $AndroidStudioArchive,
-    $OracleJDKInstaller,
-    $OracleJDKInternalArchive
-)
-
-$RemoveItemParameters = @{
-    Path = $TemporaryFiles;
-    ErrorAction = 'SilentlyContinue';
-}
-Remove-Item @RemoveItemParameters -Recurse -Force
 
 #
 # Remove installed packages.

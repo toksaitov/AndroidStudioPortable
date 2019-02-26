@@ -7,16 +7,12 @@ portable. To run the scripts you need PowerShell version 2.0 or higher.
 * __Setup-AndroidStudioPortable.ps1__
 
 	+ Downloads aria2 and unpacks its archive.
-    + Downloads lessmsi and unpacks its archive.
-    + Downloads 7-Zip and unpacks its installer with lessmsi.
-    + Downloads the Android SDK and unpacks its archive with 7-Zip as .Net
-      libraries can't handle long file names inside.
+    + Downloads 7zr to bootstrap extraction of 7-zip archives
+    + Downloads 7-Zip and unpacks its installer with 7zr.
     + Downloads Android Studio and unpacks its archive.
     + Downloads the Oracle JDK installer and unpacks it with 7-Zip.
     + Unpacks `.pack` files in the JDK directory into `.jar` files with
       the unpack200 utility bundled with the JDK.
-    + Removes all aria2, lessmsi and 7-Zip files with the SDK, Studio, and JDK
-      archives and installers.
     + Generates a batch file to start an Android Studio instance without
       PowerShell.
 
@@ -39,10 +35,15 @@ portable. To run the scripts you need PowerShell version 2.0 or higher.
         - Android Studio _bin_ directory
         - Android SDK _tools_ and _platform-tools_ directories
 
+* __Remove-SetupTemporaryFiles.ps1__
+
+    + Removes all aria2 and 7-Zip files then Studio and JDK
+      archives.
+		
 * __Remove-AndroidStudioPortable.ps1__
 
-    + Removes all aria2, lessmsi and 7-Zip files with the SDK, Studio, and JDK
-      archives and installers.
+    + Removes all aria2 and 7-Zip files then Studio and JDK
+      archives.
     + Removes the unpacked SDK, Studio, and JDK directories but leaves the
       portable home directory along.
 
