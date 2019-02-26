@@ -32,8 +32,6 @@ $AndroidSDKRootDirectory =
     Get-RelativeRootDirectory -RelativePath $AndroidSDKDirectory
 $AndroidStudioRootDirectory =
     Get-RelativeRootDirectory -RelativePath $AndroidStudioDirectory
-$OracleJDKRootDirectory =
-    Get-RelativeRootDirectory -RelativePath $OracleJDKDirectory
 
 #
 # 260 characters workaround
@@ -46,8 +44,7 @@ $OracleJDKRootDirectory =
 
 $InstalledPackages = @(
     $AndroidSDKRootDirectory,
-    $AndroidStudioRootDirectory,
-    $OracleJDKRootDirectory
+    $AndroidStudioRootDirectory
 )
 
 $RemoveItemParameters = @{

@@ -10,9 +10,7 @@ $TemporaryFiles = @(
     $7zBootStrapExec,
     $7zInstaller,
     $7zExecutable,
-    $AndroidStudioArchive,
-    $OracleJDKInstaller,
-	$OracleJDKInternalArchive
+    $AndroidStudioArchive
 )
 
 $RemoveItemParameters = @{

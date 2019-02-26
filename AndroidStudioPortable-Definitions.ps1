@@ -67,21 +67,7 @@ $AndroidStudioBatchFile =
 $GradleUserHomeDirectory =
     "$PortableHomeDirectory\.gradle"
 
-## OpenJDK Java binaries 
-$OpenJDK =
-    'OpenJDK8U-jdk_x64_windows_hotspot_8u202b08'
-$OpenJDKName = 
-	'jdk8u202-b08'
-#Should Autogenerate from above	
-$OpenJDKArchive =
-    "$OpenJDK.zip"
-$OpenJDKURL =
-    "https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/$OpenJDKName/$OpenJDKArchive"
-$OpenJDKDirectory =
-    ".\$OpenJDKName"
-$OpenJDKBinariesDirectory =
-"$OpenJDKDirectory\bin"
-
+	
 ### Tools Section. Shouldnt need to change ##
 
 ##7z File Expander

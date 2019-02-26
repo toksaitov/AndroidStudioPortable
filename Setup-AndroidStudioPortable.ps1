@@ -34,8 +34,7 @@
 
 $ToolsAreRequired =
     !(Test-Path -Path $AndroidSDKDirectory)    -Or
-    !(Test-Path -Path $AndroidStudioDirectory) -Or
-    !(Test-Path -Path $OracleJDKDirectory)
+    !(Test-Path -Path $AndroidStudioDirectory)
 
 if ($ToolsAreRequired -And !(Test-Path -Path $aria2Directory))
 {
@@ -79,81 +78,6 @@ if (!(Test-Path -Path $AndroidStudioDirectory))
 
     Write-Output "Unpacking Android Studio"
     & ".\$7zExecutable" 'x' $AndroidStudioArchive '-o*' '-bso0' '-bsp1' '-y'
-}
-
-#
-# Download and unpack an Oracle JDK installer without administrative rights.
-#
-
-if (!(Test-Path -Path $OracleJDKDirectory))
-{
-    if (!(Test-Path -Path $OracleJDKInternalArchive))
-    {
-        if (!(Test-Path -Path $OracleJDKInternalCAB))
-        {
-            if (!(Test-Path -Path $OracleJDKInstaller))
-            {
-                #
-                # Download the Oracle JDK installer accepting the
-                #
-                #     `Oracle Binary Code License Agreement for Java SE`
-                #
-
-				& ".\$aria2Directory\$aria2Executable" --header=$($OracleJDKdlCookie) -c -o $OracleJDKInstaller $OracleJDKURL
-                
-            }
-
-            #
-            # Unpack the Oracle JDK installer with 7-Zip.
-            #
-
-            Write-Output "Unpack JDK installer"
-            & ".\$7zDirectory\$7zExecutable"                      `
-                'e' $OracleJDKInstaller                           `
-                "$OracleJDKInternalCABPath\$OracleJDKInternalCAB" `
-                '-y'
-        }
-
-        #
-        # Unpack the Oracle JDK Tools CAB with 7-Zip.
-        #
-
-        Write-Output "Unpack JDK archive"
-        & ".\$7zDirectory\$7zExecutable"     `
-            'e' $OracleJDKInternalCAB        `
-            "$OracleJDKInternalArchive" '-y'
-    }
-
-    Write-Output "Unpack JDK"
-    & ".\$7zDirectory\$7zExecutable" 'x' $OracleJDKInternalArchive `
-                                     "-o$OracleJDKDirectory" '-y'
-}
-
-#
-# Unpack Oracle JDK `.pack` files with the unpack200
-# utility bundled with the JDK.
-#
-
-Write-Output "Expand JDK files"
-$GetChildItemParameters = @{
-    Path = $OracleJDKDirectory;
-    Filter = '*.pack';
-}
-$PackFiles =
-    Get-ChildItem @GetChildItemParameters -Recurse
-
-if ($PackFiles)
-{
-    foreach ($File in $PackFiles)
-    {
-        $PackFileName =
-            $File.FullName
-        $JarFileName =
-            "$($File.DirectoryName)\$($File.BaseName).jar"
-
-        & "$OracleJDKBinariesDirectory\unpack200" '-r' `
-            $PackFileName $JarFileName
-    }
 }
 
 #
@@ -237,9 +161,7 @@ SET USERPROFILE=%~dp0$PortableHomeDirectory
 SET ANDROID_HOME=%~dp0$AndroidSDKDirectory
 SET ANDROID_SDK_HOME=%~dp0$PortableHomeDirectory
 SET GRADLE_USER_HOME=%~dp0$GradleUserHomeDirectory
-SET JAVA_HOME=%~dp0$OracleJDKDirectory
 
-SET PATH=%~dp0$OracleJDKBinariesDirectory;%PATH%
 SET PATH=%~dp0$AndroidStudioBinariesDirectory;%PATH%
 SET PATH=$AndroidSDKBinariesPaths%PATH%
 
