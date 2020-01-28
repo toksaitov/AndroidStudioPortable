@@ -32,11 +32,7 @@ $env:ANDROID_SDK_HOME =
     Expand-Path -Path $PortableHomeDirectory
 $env:GRADLE_USER_HOME =
     Expand-Path -Path $GradleUserHomeDirectory
-$env:JAVA_HOME =
-    Expand-Path -Path $OracleJDKDirectory
 
-$env:PATH =
-    "$(Expand-Path -Path $OracleJDKBinariesDirectory);$env:PATH"
 $env:PATH =
     "$(Expand-Path -Path $AndroidStudioBinariesDirectory);$env:PATH"
 
